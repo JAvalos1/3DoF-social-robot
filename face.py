@@ -13,9 +13,9 @@ import time
 import sys
 import cv2
 
-arduino = serial.Serial('COM5', 9600)
-time.sleep(2)
-print("Connection to arduino...")
+#arduino = serial.Serial('COM5', 9600)
+#time.sleep(2)
+#print("Connection to arduino...")
 
 
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
@@ -55,11 +55,14 @@ while 1:
         print("Center of Rectangle is :", center)
         data = "X{0:d}Y{1:d}Z".format(xx, yy)
         print ("output = '" +data+ "'")
-        arduino.write(data)
+        #arduino.write(data)
 
 
     cv2.imshow('img',img)
 
-    k = cv2.waitKey(30) & 0xff
-    if k == 27:
+    if cv2.waitKey(1) & 0xFF == ord('q'):
         break
+
+# When everything is done, release the capture
+cap.release()
+cv2.destroyAllWindows()
