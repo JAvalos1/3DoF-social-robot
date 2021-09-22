@@ -13,12 +13,14 @@ import time
 import sys
 import cv2
 
-#arduino = serial.Serial('COM5', 9600)
-#time.sleep(2)
-#print("Connection to arduino...")
+arduino = serial.Serial('COM2', 9600)
+time.sleep(2)
+print("Connection to arduino...")
 
 
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+#face_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
+
 
 cap = cv2.VideoCapture(0)
 
@@ -32,7 +34,7 @@ while 1:
     faces = face_cascade.detectMultiScale(gray, 1.3)
 
     for (x,y,w,h) in faces:
-        cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),5)
+        img = cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),5)
         roi_gray  = gray[y:y+h, x:x+w]
         roi_color = img[y:y+h, x:x+w]
 
@@ -53,9 +55,11 @@ while 1:
         center = (xx,yy)
 
         print("Center of Rectangle is :", center)
-        data = "X{0:d}Y{1:d}Z".format(xx, yy)
+        data = "X{}Y{}Z".format(xx, yy)
         print ("output = '" +data+ "'")
         #arduino.write(data)
+
+        #img = cv2.flip(img,1)
 
 
     cv2.imshow('img',img)
